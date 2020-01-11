@@ -707,7 +707,9 @@ export function convertFormatToMoment(format) {
     // Day in week.
     .replace(/E/g, 'd')
     // AM/PM marker
-    .replace(/a/g, 'A');
+    .replace(/a/g, 'A')
+    // Unix Timestamp
+    .replace(/U/g, 'X');
 }
 
 export function convertFormatToMask(format) {
@@ -1042,10 +1044,10 @@ export function observeOverload(callback, options = {}) {
 export function getContextComponents(context) {
   const values = [];
 
-  context.utils.eachComponent(context.instance.options.editForm.components, (component) => {
+  context.utils.eachComponent(context.instance.options.editForm.components, (component, path) => {
     if (component.key !== context.data.key) {
       values.push({
-        label: component.label || component.key,
+        label: `${component.label || component.key} (${path})`,
         value: component.key,
       });
     }
